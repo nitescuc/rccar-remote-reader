@@ -1,0 +1,22 @@
+{
+  "name": "rccar-remote-reader",
+  "version": "0.0.1",
+  "description": "Decoder for RC CAR remote",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nitescuc/rccar-remote-reader.git"
+  },
+  "author": "Cristian Nitescu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nitescuc/rccar-remote-reader/issues"
+  },
+  "homepage": "https://github.com/nitescuc/rccar-remote-reader#readme",
+  "dependencies": {
+    "pigpio": "^1.2.2"
+  }
+}
