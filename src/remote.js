@@ -2,7 +2,8 @@ const Gpio = require('pigpio').Gpio;
 
 class RemoteChannel {
     constructor(config) {
-        this.config = config;
+        this.config = config || {};
+
         this.inputPin = new Gpio(this.config.pin, {mode: Gpio.INPUT, alert: true});
         this.inputPin.pullUpDown(Gpio.PUD_UP);
         this.inputPin.on('alert', (level, tick) => {
@@ -12,7 +13,7 @@ class RemoteChannel {
               const endTick = tick;
               const diff = (endTick >> 0) - (this.startTick >> 0); // Unsigned 32 bit arithmetic
 
-              this.value = this.config.isSwitch ? this.remapSwitch(diff) : this.remap(diff);
+              this.value = this.remap(diff);
               
               if (this.config.callback && this.isDifferent(this.lastValue, this.value)) this.config.callback(this, value);
 
@@ -25,11 +26,6 @@ class RemoteChannel {
     }
     isDifferent(lastValue, value) {
         return Math.abs((lastValue || 0) - value) > (this.config.sensitivity || 0);
-    }
-    remapSwitch(value) {
-        const remap = this.config.remapValues;
-        if (!remap) return value < 1500 ? false : true;
-        else return value < 1500 ? remap[0] : remap[1];
     }
     remap(value) {
         const remap = this.config.remapValues;
@@ -46,6 +42,18 @@ class RemoteChannel {
     }
 }
 
+class RemoteSwitchChannel extends RemoteChannel {
+    remap(value) {
+        const remap = this.config.remapValues;
+        if (!remap) return value < 1500 ? false : true;
+        else return value < 1500 ? remap[0] : remap[1];
+    }
+    isDifferent(lastValue, value) {
+        return this.lastValue !== value;
+    }
+}
+
 module.exports = {
-    RemoteChannel
+    RemoteChannel,
+    RemoteSwitchChannel
 }
