@@ -14,12 +14,17 @@ class RemoteChannel {
 
               this.value = this.config.isSwitch ? this.remapSwitch(diff) : this.remap(diff);
               
-              if (this.config.callback) this.config.callback(this, value);
+              if (this.config.callback && this.isDifferent(this.lastValue, this.value)) this.config.callback(this, value);
+
+              this.lastValue = this.value;
             }
         });
     }
     getValue() {
         return this.value;
+    }
+    isDifferent(lastValue, value) {
+        return Math.abs((lastValue || 0) - value) > (this.config.sensitivity || 0);
     }
     remapSwitch(value) {
         const remap = this.config.remapValues;
