@@ -15,7 +15,7 @@ class RemoteChannel {
 
               this.value = this.remap(diff);
               
-              if (this.config.callback && this.isDifferent(this.lastValue, this.value)) this.config.callback(this, value);
+              if (this.config.callback && this.isDifferent(this.lastValue, this.value)) this.config.callback(this, this.value);
 
               this.lastValue = this.value;
             }
