@@ -1,5 +1,5 @@
 {
-  "name": "rccar-remote-reader",
+  "name": "@nitescuc/rccar-remote-reader",
   "version": "0.0.1",
   "description": "Decoder for RC CAR remote",
   "main": "index.js",
